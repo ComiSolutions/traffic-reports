@@ -1,14 +1,3 @@
-FROM node:22-bookworm-slim AS assets
-
-WORKDIR /app
-
-COPY package.json package-lock.json ./
-RUN npm ci
-
-COPY resources ./resources
-COPY vite.config.js ./
-RUN npm run build
-
 FROM composer:2 AS vendor
 
 WORKDIR /app
@@ -20,6 +9,18 @@ RUN composer install \
     --prefer-dist \
     --optimize-autoloader \
     --no-scripts
+
+FROM node:22-bookworm-slim AS assets
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY --from=vendor /app/vendor ./vendor
+COPY resources ./resources
+COPY vite.config.js ./
+RUN npm run build
 
 FROM php:8.3-apache
 
