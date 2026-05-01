@@ -40,7 +40,7 @@ If Render gives the service a different URL, use that URL for `APP_URL`.
 
 The Docker image:
 
-1. Installs PHP production dependencies.
+1. Installs PHP 8.4 production dependencies.
 2. Builds Vite assets.
 3. Starts Apache with Laravel's `public` directory as the document root.
 4. Runs `php artisan migrate --force` on boot.
