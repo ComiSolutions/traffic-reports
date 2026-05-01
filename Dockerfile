@@ -48,7 +48,6 @@ COPY --from=assets /app/public/build ./public/build
 
 RUN chmod +x /usr/local/bin/render-start \
     && chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R ug+rwx storage bootstrap/cache \
-    && php artisan package:discover --ansi
+    && chmod -R ug+rwx storage bootstrap/cache
 
 CMD ["render-start"]
