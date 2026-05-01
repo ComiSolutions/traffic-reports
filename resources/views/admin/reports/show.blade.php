@@ -70,6 +70,10 @@
                             <dd class="text-neutral-900 dark:text-neutral-100">{{ collect([$report->city, $report->state, $report->country])->filter()->implode(', ') ?: __('Not provided') }}</dd>
                         </div>
                         <div>
+                            <dt class="text-neutral-500 dark:text-neutral-400">{{ __('Landmark') }}</dt>
+                            <dd class="text-neutral-900 dark:text-neutral-100">{{ $report->landmark ?: __('No landmark provided.') }}</dd>
+                        </div>
+                        <div>
                             <dt class="text-neutral-500 dark:text-neutral-400">{{ __('Coordinates') }}</dt>
                             <dd class="text-neutral-900 dark:text-neutral-100">{{ $report->latitude }}, {{ $report->longitude }}</dd>
                         </div>

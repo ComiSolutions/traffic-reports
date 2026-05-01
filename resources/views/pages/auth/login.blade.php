@@ -1,22 +1,22 @@
 <x-layouts::auth.split :title="__('Log in')">
-    <div class="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm dark:border-white/10 dark:bg-neutral-900">
-        <div class="border-b border-zinc-100 bg-zinc-50 px-6 py-5 dark:border-white/10 dark:bg-white/5 sm:px-8">
-            <p class="text-sm font-semibold uppercase tracking-normal text-emerald-700 dark:text-emerald-300">
+    <section class="auth-card">
+        <header class="auth-card-header">
+            <p class="auth-eyebrow">
                 {{ __('Welcome back') }}
             </p>
-            <div class="mt-2">
+            <div>
                 <flux:heading size="xl">{{ __('Log in to Traffic Reports') }}</flux:heading>
                 <flux:subheading>{{ __('Continue tracking traffic offence reports, evidence, and review decisions.') }}</flux:subheading>
             </div>
-        </div>
+        </header>
 
         <!-- Session Status -->
-        <div class="px-6 pt-6 sm:px-8">
+        <div class="auth-status">
             <x-auth-session-status class="text-center" :status="session('status')" />
         </div>
 
-        <div class="px-6 py-6 sm:px-8">
-            <form method="POST" action="{{ route('login.store') }}" class="flex flex-col gap-5">
+        <div class="auth-card-body">
+            <form method="POST" action="{{ route('login.store') }}" class="auth-form">
                 @csrf
 
                 <!-- Email Address -->
@@ -50,9 +50,9 @@
                     @endif
                 </div>
 
-                <div class="flex items-center justify-between gap-4 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+                <div class="auth-option-row">
                     <flux:checkbox name="remember" :label="__('Keep me signed in')" :checked="old('remember')" />
-                    <span class="hidden text-xs text-zinc-500 dark:text-zinc-400 sm:block">{{ __('Secure access') }}</span>
+                    <span>{{ __('Secure access') }}</span>
                 </div>
 
                 <flux:button variant="primary" type="submit" class="w-full" data-test="login-button">
@@ -61,11 +61,11 @@
             </form>
 
             @if (Route::has('register'))
-                <div class="mt-6 rounded-lg bg-emerald-50 px-4 py-3 text-center text-sm text-emerald-900 dark:bg-emerald-400/10 dark:text-emerald-100">
+                <div class="auth-switch">
                     <span>{{ __('New to the reporting portal?') }}</span>
                     <flux:link :href="route('register')" wire:navigate>{{ __('Create an account') }}</flux:link>
                 </div>
             @endif
         </div>
-    </div>
+    </section>
 </x-layouts::auth.split>

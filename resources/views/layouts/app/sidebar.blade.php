@@ -50,13 +50,20 @@
 
             <flux:sidebar.nav>
                 <flux:sidebar.group :heading="__('Workflow')" class="grid">
-                    <flux:sidebar.item icon="map-pin">
+                    <flux:sidebar.item icon="map-pin" :href="route('reports.create')" :current="request()->routeIs('reports.create')" wire:navigate>
                         {{ __('GPS Evidence') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="envelope">
+
+                    <flux:sidebar.item icon="envelope" :href="route('notifications.index')" :current="request()->routeIs('notifications.*')" wire:navigate>
                         {{ __('Email Alerts') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="check-circle">
+
+                    <flux:sidebar.item
+                        icon="check-circle"
+                        :href="auth()->user()->isAdmin() ? route('admin.reports.index') : route('reports.index')"
+                        :current="auth()->user()->isAdmin() ? request()->routeIs('admin.reports.*') : request()->routeIs('reports.index', 'reports.show')"
+                        wire:navigate
+                    >
                         {{ __('Approval Tracking') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>

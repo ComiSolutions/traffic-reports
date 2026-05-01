@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'country',
     'state',
     'city',
+    'landmark',
     'latitude',
     'longitude',
     'reported_at',

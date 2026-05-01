@@ -108,7 +108,7 @@
                     </label>
                     <select
                         id="city"
-                        wire:model="city"
+                        wire:model.live="city"
                         class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:ring-neutral-800"
                     >
                         <option value="">{{ __('Select city') }}</option>
@@ -125,10 +125,42 @@
             <input type="hidden" wire:model="latitude">
             <input type="hidden" wire:model="longitude">
 
-            <div class="rounded-lg border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-700 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-300">
-                {{ __('Browser GPS fallback:') }}
-                <span>{{ $latitude ?: __('Waiting for latitude') }}</span>,
-                <span>{{ $longitude ?: __('Waiting for longitude') }}</span>
+            <div class="gps-card {{ $latitude && $longitude ? 'gps-card-ready' : '' }}" wire:key="gps-{{ $state }}-{{ $city }}-{{ $latitude }}-{{ $longitude }}">
+                <div class="gps-radar" aria-hidden="true">
+                    <span></span>
+                </div>
+
+                <div class="gps-copy">
+                    <p class="gps-label">{{ $latitude && $longitude ? __('GPS locked') : __('GPS standby') }}</p>
+                    <p class="gps-title">
+                        {{ $latitude && $longitude ? __('Coordinates generated for selected location') : __('Select a state and city to generate GPS instantly') }}
+                    </p>
+                    <div class="gps-values">
+                        <span>{{ __('Latitude') }}: <strong>{{ $latitude ?: __('Waiting') }}</strong></span>
+                        <span>{{ __('Longitude') }}: <strong>{{ $longitude ?: __('Waiting') }}</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label for="landmark" class="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                    {{ __('Incident landmark') }}
+                    <span class="text-neutral-400">{{ __('(optional)') }}</span>
+                </label>
+                <input
+                    id="landmark"
+                    type="text"
+                    wire:model="landmark"
+                    maxlength="180"
+                    placeholder="{{ __('Nearest bus stop, junction, road name, or notable building') }}"
+                    class="w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:ring-neutral-800"
+                >
+                <p class="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
+                    {{ __('This helps reviewers locate the exact incident area beyond the city GPS point.') }}
+                </p>
+                @error('landmark')
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                @enderror
             </div>
 
             @error('latitude')

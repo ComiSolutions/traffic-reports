@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: traffic-reports
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /up
+    autoDeploy: true
+    envVars:
+      - key: APP_NAME
+        value: Traffic Offence Reporting System
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: FORCE_HTTPS
+        value: true
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: traffic-reports-db
+          property: connectionString
+      - key: DATABASE_URL
+        fromDatabase:
+          name: traffic-reports-db
+          property: connectionString
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+      - key: FILESYSTEM_DISK
+        value: public
+      - key: MAIL_MAILER
+        value: log
+      - key: GEOCODING_ENABLED
+        value: true
+
+databases:
+  - name: traffic-reports-db
+    databaseName: traffic_reports
+    user: traffic_reports_user
+    plan: free
